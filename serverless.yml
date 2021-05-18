@@ -1,6 +1,6 @@
 # serverless.yml
 
-service: graphql-api-template
+service: gather-lichess
 provider:
   name: aws
   runtime: nodejs12.x

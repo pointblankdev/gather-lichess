@@ -1,1 +1,1 @@
-# graphql-api-template
+# gather-lichess
