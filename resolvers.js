@@ -1,5 +1,6 @@
 const axios = require('axios');
 const baseUrl = `https://lichess.org`;
+const jsonData = require('ndjson-to-json-text');
 
 const resolvers = {
   Query: {
@@ -47,10 +48,57 @@ const resolvers = {
         requestUrl = baseUrl + `/api/crosstable/${args.user1}/${args.user2}`;
       }
 
-      console.log(requestUrl);
       const { data } = await axios.get(requestUrl);
 
-      console.log(data);
+      return data;
+    },
+
+    getTeamMembers: async (root, args) => {
+      const { data } = await axios.get(
+        baseUrl + `/api/team/${args.teamId}/users`
+      );
+      const userList = jsonData.ndjsonToJsonText(data);
+
+      return JSON.parse(userList);
+    },
+
+    getUserByID: async (root, args) => {
+      let config = {
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+      };
+
+      const { data } = await axios.post(
+        baseUrl + `/api/users`,
+        args.userIds,
+        config
+      );
+
+      return data;
+    },
+
+    getLeaderBoard: async (root, args) => {
+      let config = {
+        headers: {
+          Accept: 'application/vnd.lichess.v3+json',
+        },
+      };
+      const { data } = await axios.get(
+        baseUrl + `/player/top/${args.nb}/${args.perfType}`,
+        config
+      );
+
+      return data.users;
+    },
+
+    getTopTen: async () => {
+      let config = {
+        headers: {
+          Accept: 'application/vnd.lichess.v3+json',
+        },
+      };
+      const { data } = await axios.get(baseUrl + '/player', config);
 
       return data;
     },

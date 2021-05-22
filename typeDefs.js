@@ -14,6 +14,8 @@ const typeDefs = gql`
 
     getUser(username: String!): User
 
+    getUserByID(userIds: String): [User]
+
     getUserRatingHistory(username: String!): [RatingHistory]
 
     getUsersStatus(
@@ -25,6 +27,12 @@ const typeDefs = gql`
     getLiveStreamers(limit: Int): [StreamerLiveList]
 
     getCrosstable(matchup: Boolean, user1: String!, user2: String!): Crosstable!
+
+    getTeamMembers(teamId: String!): [User]
+
+    getLeaderBoard(nb: Int!, perfType: PerfType!): [User]
+
+    getTopTen: TopTenPerfs
   }
 
   type UserActivityListItem {
@@ -68,9 +76,9 @@ const typeDefs = gql`
   }
 
   type User {
-    blocking: Boolean!
-    completionRate: Int!
-    count: Count!
+    blocking: Boolean
+    completionRate: Int
+    count: Count
     createdAt: Int!
     disabled: Boolean
     followable: Boolean!
@@ -80,15 +88,15 @@ const typeDefs = gql`
     language: String
     nbFollowers: Int!
     nbFollowing: Int!
-    online: Boolean!
-    patron: Boolean!
+    online: Boolean
+    patron: Boolean
     perfs: Perfs!
     playTime: PlayTime!
     playing: String!
     profile: Profile!
     seenAt: Int!
     streaming: Boolean!
-    title: String!
+    title: String
     tosViolation: Boolean!
     url: String!
     username: String!
@@ -271,6 +279,38 @@ const typeDefs = gql`
     users: JSON
     matchup: JSON
     nbGames: Int
+  }
+
+  enum PerfType {
+    atomic
+    blitz
+    bullet
+    chess960
+    classical
+    correspondence
+    horde
+    kingOfTheHill
+    puzzle
+    racingKings
+    rapid
+    storm
+    ultraBullet
+  }
+
+  type TopTenPerfs {
+    atomic: [User]
+    blitz: [User]
+    bullet: [User]
+    chess960: [User]
+    classical: [User]
+    correspondence: [User]
+    horde: [User]
+    kingOfTheHill: [User]
+    puzzle: [User]
+    racingKings: [User]
+    rapid: [User]
+    storm: [User]
+    ultraBullet: [User]
   }
 `;
 
