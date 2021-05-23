@@ -81,9 +81,9 @@ const typeDefs = gql`
     count: Count
     createdAt: Int!
     disabled: Boolean
-    followable: Boolean!
-    following: Boolean!
-    followsYou: Boolean!
+    followable: Boolean
+    following: Boolean
+    followsYou: Boolean
     id: String!
     language: String
     nbFollowers: Int!
@@ -97,7 +97,7 @@ const typeDefs = gql`
     seenAt: Int!
     streaming: Boolean!
     title: String
-    tosViolation: Boolean!
+    tosViolation: Boolean
     url: String!
     username: String!
   }
