@@ -5,102 +5,143 @@ const jsonData = require('ndjson-to-json-text');
 const resolvers = {
   Query: {
     getUser: async (root, args) => {
-      const { data } = await axios.get(baseUrl + `/api/user/${args.username}`);
-
-      return data;
+      try {
+        const { data } = await axios.get(
+          baseUrl + `/api/user/${args.username}`
+        );
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     getUsersStatus: async (root, args) => {
-      const { data } = await axios.get(
-        baseUrl + `/api/users/status?ids=${args.ids}`
-      );
-
-      return data;
+      try {
+        const { data } = await axios.get(
+          baseUrl + `/api/users/status?ids=${args.ids}`
+        );
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     getUserRatingHistory: async (root, args) => {
-      const { data } = await axios.get(
-        baseUrl + `/api/user/${args.username}/rating-history`
-      );
+      try {
+        const { data } = await axios.get(
+          baseUrl + `/api/user/${args.username}/rating-history`
+        );
 
-      return data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     getUserActivity: async (root, args) => {
-      const { data } = await axios.get(
-        baseUrl + `/api/user/${args.username}/activity`
-      );
+      try {
+        const { data } = await axios.get(
+          baseUrl + `/api/user/${args.username}/activity`
+        );
 
-      return data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     getLiveStreamers: async () => {
-      const { data } = await axios.get(baseUrl + '/streamer/live');
-      return data;
+      try {
+        const { data } = await axios.get(baseUrl + '/streamer/live');
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     getCrosstable: async (root, args) => {
-      let requestUrl;
-      if (args.matchup) {
-        requestUrl =
-          baseUrl + `/api/crosstable/${args.user1}/${args.user2}?matchup=true`;
-      } else {
-        requestUrl = baseUrl + `/api/crosstable/${args.user1}/${args.user2}`;
+      try {
+        let requestUrl;
+        if (args.matchup) {
+          requestUrl =
+            baseUrl +
+            `/api/crosstable/${args.user1}/${args.user2}?matchup=true`;
+        } else {
+          requestUrl = baseUrl + `/api/crosstable/${args.user1}/${args.user2}`;
+        }
+
+        const { data } = await axios.get(requestUrl);
+
+        return data;
+      } catch (error) {
+        console.log(error);
       }
-
-      const { data } = await axios.get(requestUrl);
-
-      return data;
     },
 
     getTeamMembers: async (root, args) => {
-      const { data } = await axios.get(
-        baseUrl + `/api/team/${args.teamId}/users`
-      );
-      const userList = jsonData.ndjsonToJsonText(data);
+      try {
+        const { data } = await axios.get(
+          baseUrl + `/api/team/${args.teamId}/users`
+        );
+        const userList = jsonData.ndjsonToJsonText(data);
 
-      return JSON.parse(userList);
+        return JSON.parse(userList);
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     getUserByID: async (root, args) => {
-      let config = {
-        headers: {
-          'Content-Type': 'text/plain',
-        },
-      };
+      try {
+        let config = {
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+        };
 
-      const { data } = await axios.post(
-        baseUrl + `/api/users`,
-        args.userIds,
-        config
-      );
+        const { data } = await axios.post(
+          baseUrl + `/api/users`,
+          args.userIds,
+          config
+        );
 
-      return data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     getLeaderBoard: async (root, args) => {
-      let config = {
-        headers: {
-          Accept: 'application/vnd.lichess.v3+json',
-        },
-      };
-      const { data } = await axios.get(
-        baseUrl + `/player/top/${args.nb}/${args.perfType}`,
-        config
-      );
+      try {
+        let config = {
+          headers: {
+            Accept: 'application/vnd.lichess.v3+json',
+          },
+        };
+        const { data } = await axios.get(
+          baseUrl + `/player/top/${args.nb}/${args.perfType}`,
+          config
+        );
 
-      return data.users;
+        return data.users;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     getTopTen: async () => {
-      let config = {
-        headers: {
-          Accept: 'application/vnd.lichess.v3+json',
-        },
-      };
-      const { data } = await axios.get(baseUrl + '/player', config);
+      try {
+        let config = {
+          headers: {
+            Accept: 'application/vnd.lichess.v3+json',
+          },
+        };
+        const { data } = await axios.get(baseUrl + '/player', config);
 
-      return data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
