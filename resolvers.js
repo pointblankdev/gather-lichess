@@ -18,7 +18,7 @@ const resolvers = {
     getUsersStatus: async (root, args) => {
       try {
         const { data } = await axios.get(
-          baseUrl + `/api/users/status?ids=${args.ids}`
+          baseUrl + `/api/users/status?ids=${args.ids.join(',')}`
         );
         return data;
       } catch (error) {
@@ -98,8 +98,6 @@ const resolvers = {
             'Content-Type': 'text/plain',
           },
         };
-
-        console.log(args.userIds.join(','));
 
         const { data } = await axios.post(
           baseUrl + `/api/users`,

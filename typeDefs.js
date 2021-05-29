@@ -19,7 +19,7 @@ const typeDefs = gql`
     getUserRatingHistory(username: String!): [RatingHistory]
 
     getUsersStatus(
-      ids: String!
+      ids: [String!]!
 
       limit: Int
     ): [ApiUsersStatusListItem]
