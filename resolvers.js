@@ -99,9 +99,11 @@ const resolvers = {
           },
         };
 
+        console.log(args.userIds.join(','));
+
         const { data } = await axios.post(
           baseUrl + `/api/users`,
-          args.userIds,
+          args.userIds.join(','),
           config
         );
 

@@ -14,7 +14,7 @@ const typeDefs = gql`
 
     getUser(username: String!): User
 
-    getUserByID(userIds: String): [User]
+    getUserByID(userIds: [String!]!): [User]
 
     getUserRatingHistory(username: String!): [RatingHistory]
 
