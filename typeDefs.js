@@ -12,9 +12,9 @@ const typeDefs = gql`
   type Query {
     getUserActivity(limit: Int, username: String!): [UserActivityListItem]
 
-    getUser(username: String!): User
+    getUser(username: String!): LiChessUser
 
-    getUserByID(userIds: [String!]!): [User]
+    getUserByID(userIds: [String!]!): [LiChessUser]
 
     getUserRatingHistory(username: String!): [RatingHistory]
 
@@ -28,9 +28,9 @@ const typeDefs = gql`
 
     getCrosstable(matchup: Boolean, user1: String!, user2: String!): Crosstable!
 
-    getTeamMembers(teamId: String!): [User]
+    getTeamMembers(teamId: String!): [LiChessUser]
 
-    getLeaderBoard(nb: Int!, perfType: PerfType!): [User]
+    getLeaderBoard(nb: Int!, perfType: PerfType!): [LiChessUser]
 
     getTopTen: TopTenPerfs
   }
@@ -75,7 +75,7 @@ const typeDefs = gql`
     url: String
   }
 
-  type User {
+  type LiChessUser @key(fields: "id") {
     blocking: Boolean
     completionRate: Int
     count: Count
@@ -101,6 +101,12 @@ const typeDefs = gql`
     url: String!
     username: String!
   }
+
+  # extend type User @key(fields: "id") {
+  #   id: ID! @external
+  #   lichess: LiChessUser @requires(fields: "lichess_id")
+  #   lichess_id: ID @external
+  # }
 
   type Count {
     ai: Int!
@@ -298,19 +304,19 @@ const typeDefs = gql`
   }
 
   type TopTenPerfs {
-    atomic: [User]
-    blitz: [User]
-    bullet: [User]
-    chess960: [User]
-    classical: [User]
-    correspondence: [User]
-    horde: [User]
-    kingOfTheHill: [User]
-    puzzle: [User]
-    racingKings: [User]
-    rapid: [User]
-    storm: [User]
-    ultraBullet: [User]
+    atomic: [LiChessUser]
+    blitz: [LiChessUser]
+    bullet: [LiChessUser]
+    chess960: [LiChessUser]
+    classical: [LiChessUser]
+    correspondence: [LiChessUser]
+    horde: [LiChessUser]
+    kingOfTheHill: [LiChessUser]
+    puzzle: [LiChessUser]
+    racingKings: [LiChessUser]
+    rapid: [LiChessUser]
+    storm: [LiChessUser]
+    ultraBullet: [LiChessUser]
   }
 `;
 

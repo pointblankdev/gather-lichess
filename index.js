@@ -1,14 +1,14 @@
-const { ApolloServer } = require("apollo-server-lambda");
-const { ApolloServer: ApolloServerLocal } = require("apollo-server");
-const typeDefs = require("./typeDefs");
-const resolvers = require("./resolvers");
+const { ApolloServer } = require('apollo-server-lambda');
+const { ApolloServer: ApolloServerLocal } = require('apollo-server');
+const { buildFederatedSchema } = require('@apollo/federation');
+const typeDefs = require('./typeDefs');
+const resolvers = require('./resolvers');
 
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
 // responsible for fetching the data for those types.
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
   context: ({ event, context }) => ({
     headers: event.headers,
     functionName: context.functionName,
@@ -16,21 +16,23 @@ const server = new ApolloServer({
     context,
   }),
   playground: {
-    endpoint: "/dev/graphql",
+    endpoint: '/dev/graphql',
   },
   introspection: true,
 });
 
 exports.handler = server.createHandler({
   cors: {
-    origin: "*",
+    origin: '*',
     credentials: false,
   },
 });
 
 // For local development
 if (!process.env.AWS_REGION) {
-  const serverLocal = new ApolloServerLocal({ typeDefs, resolvers });
+  const serverLocal = new ApolloServerLocal({
+    schema: buildFederatedSchema([{ typeDefs, resolvers }]),
+  });
   serverLocal.listen().then(({ url }) => {
     console.log(`Server ready at ${url}`);
   });

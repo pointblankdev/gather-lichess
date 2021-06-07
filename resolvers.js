@@ -2,18 +2,24 @@ const axios = require('axios');
 const baseUrl = `https://lichess.org`;
 const jsonData = require('ndjson-to-json-text');
 
+const getUser = async (root, args) => {
+  try {
+    const { data } = await axios.get(baseUrl + `/api/user/${args.username}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const resolvers = {
+  LiChessUser: {
+    __resolveReference: (root) => getUser(root.id),
+  },
+  User: {
+    lichess: (root) => getUser(root.lichess_id),
+  },
   Query: {
-    getUser: async (root, args) => {
-      try {
-        const { data } = await axios.get(
-          baseUrl + `/api/user/${args.username}`
-        );
-        return data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    getUser,
 
     getUsersStatus: async (root, args) => {
       try {
