@@ -12,7 +12,7 @@ const typeDefs = gql`
   type Query {
     getUserActivity(limit: Int, username: String!): [UserActivityListItem]
 
-    getUser(username: String!): LiChessUser
+    getUserByName(username: String!): LiChessUser
 
     getUserByID(userIds: [String!]!): [LiChessUser]
 
