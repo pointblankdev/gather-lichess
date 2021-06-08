@@ -19,7 +19,7 @@ const resolvers = {
     lichess: (root) => getUser(root.lichess_id),
   },
   Query: {
-    getUser,
+    getUserByName: getUser,
 
     getUsersStatus: async (root, args) => {
       try {
